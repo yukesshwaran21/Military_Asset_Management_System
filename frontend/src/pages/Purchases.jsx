@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Purchases.css';
 import { Paper, Stack, TextField, MenuItem, Button, Typography } from '@mui/material';
 import { apiGet, apiPost } from '../api';
 

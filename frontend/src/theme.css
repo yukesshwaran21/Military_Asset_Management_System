@@ -1,0 +1,50 @@
+/* ===== THEME VARIABLES ===== */
+:root {
+  /* Colors */
+  --color-primary: #4a90e2;
+  --color-secondary: #ff7f50;
+  --color-accent: #00c897;
+  --color-bg: #f9f9f9;
+  --color-bg-dark: #1a1a1a;
+  --color-text: #333;
+  --color-text-light: #fff;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.4s ease-in-out;
+
+  /* Font Families */
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ===== GLOBAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* Dark mode */
+body.dark {
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+}

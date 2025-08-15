@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Grid, Typography, Stack, Button, Dialog, DialogTitle, DialogContent, TextField, MenuItem } from '@mui/material';
+import './Dashboard.css';
+import { Paper, Grid, Typography, Stack, Button, Dialog, DialogTitle, DialogContent, TextField, MenuItem, Divider } from '@mui/material';
 import { apiGet } from '../api';
 
 export default function Dashboard() {
@@ -8,6 +9,8 @@ export default function Dashboard() {
   const [filters, setFilters] = useState({ base:'', asset:'', from:'', to:'' });
   const [metrics, setMetrics] = useState(null);
   const [open, setOpen] = useState(false);
+  const [purchaseDetails, setPurchaseDetails] = useState([]);
+  const [transferDetails, setTransferDetails] = useState([]);
 
   const loadRefs = async () => {
     const [b, a] = await Promise.all([apiGet('/api/bases'), apiGet('/api/assets')]);
@@ -23,6 +26,17 @@ export default function Dashboard() {
   useEffect(()=>{ loadMetrics(); /* eslint-disable-next-line */ },[]);
 
   const apply = async () => loadMetrics();
+
+  const handleDetailsOpen = async () => {
+    setOpen(true);
+    // Fetch purchases and transfers for current filters
+    const [purchases, transfers] = await Promise.all([
+      apiGet('/api/purchases', filters),
+      apiGet('/api/transfers', filters)
+    ]);
+    setPurchaseDetails(purchases);
+    setTransferDetails(transfers);
+  };
 
   return (
     <Stack spacing={3}>
@@ -65,7 +79,7 @@ export default function Dashboard() {
             <Typography variant="overline">Net Movement</Typography>
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="h4">{metrics?.netMovement ?? '-'}</Typography>
-              <Button size="small" onClick={()=>setOpen(true)}>Details</Button>
+              <Button size="small" onClick={handleDetailsOpen}>Details</Button>
             </Stack>
           </Paper>
         </Grid>
@@ -74,13 +88,42 @@ export default function Dashboard() {
         </Grid>
       </Grid>
 
-      <Dialog open={open} onClose={()=>setOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle>Net Movement Breakdown</DialogTitle>
+      <Dialog open={open} onClose={()=>setOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Net Movement Details</DialogTitle>
         <DialogContent>
-          <Stack spacing={1} sx={{ mt: 1 }}>
-            <Typography>Purchases: <b>{metrics?.breakdown?.purchases ?? 0}</b></Typography>
-            <Typography>Transfer In: <b>{metrics?.breakdown?.transferIn ?? 0}</b></Typography>
-            <Typography>Transfer Out: <b>{metrics?.breakdown?.transferOut ?? 0}</b></Typography>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <Typography variant="subtitle1">Purchases</Typography>
+            {purchaseDetails.length === 0 ? (
+              <Typography color="text.secondary">No purchases found.</Typography>
+            ) : (
+              <Stack spacing={1}>
+                {purchaseDetails.map((p, idx) => (
+                  <Paper key={p._id || idx} sx={{ p: 2, mb: 2, background: 'linear-gradient(135deg, #232526 0%, #414345 100%)', color: '#fff', borderRadius: 3, boxShadow: 3 }}>
+                    <Typography sx={{ fontWeight: 600, fontSize: 18 }}><span style={{ color: '#90caf9' }}>Base:</span> {p.base?.name ?? '-'}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#ffb74d' }}>Asset:</span> {p.asset?.name ?? '-'}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#81c784' }}>Quantity:</span> {p.quantity}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#e57373' }}>Date:</span> {new Date(p.date).toLocaleDateString()}</Typography>
+                  </Paper>
+                ))}
+              </Stack>
+            )}
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="subtitle1">Transfers</Typography>
+            {transferDetails.length === 0 ? (
+              <Typography color="text.secondary">No transfers found.</Typography>
+            ) : (
+              <Stack spacing={1}>
+                {transferDetails.map((t, idx) => (
+                  <Paper key={t._id || idx} sx={{ p: 2, mb: 2, background: 'linear-gradient(135deg, #232526 0%, #414345 100%)', color: '#fff', borderRadius: 3, boxShadow: 3 }}>
+                    <Typography sx={{ fontWeight: 600, fontSize: 18 }}><span style={{ color: '#90caf9' }}>From Base:</span> {t.fromBase?.name ?? '-'}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#90caf9' }}>To Base:</span> {t.toBase?.name ?? '-'}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#ffb74d' }}>Asset:</span> {t.asset?.name ?? '-'}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#81c784' }}>Quantity:</span> {t.quantity}</Typography>
+                    <Typography sx={{ fontWeight: 600 }}><span style={{ color: '#e57373' }}>Date:</span> {new Date(t.date).toLocaleDateString()}</Typography>
+                  </Paper>
+                ))}
+              </Stack>
+            )}
           </Stack>
         </DialogContent>
       </Dialog>

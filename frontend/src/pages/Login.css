@@ -1,0 +1,95 @@
+:root {
+  --primary-color: #4A90E2;
+  --primary-color-hover: #4286D1;
+  --background-color: #F4F6FA;
+  --card-bg-color: #FFFFFF;
+  --text-color: #333333;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: rgba(0, 0, 0, 0.15);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  height: 100%;
+}
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.login-card {
+  background: var(--card-bg-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.login-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-hover-shadow);
+}
+
+/* Input styles */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Button styles (e.g., Login button) */
+button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 8px;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+button:hover {
+  background: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px;
+    margin: 0 16px;
+  }
+}

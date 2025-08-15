@@ -1,0 +1,101 @@
+:root {
+  --primary-color: #4A90E2;
+  --primary-color-hover: #4286D1;
+  --background-color: #F4F6FA;
+  --card-bg-color: #FFFFFF;
+  --text-color: #333333;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: rgba(0, 0, 0, 0.15);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+.root {
+  padding: 24px;
+  background: var(--background-color);
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+.filters {
+  margin-bottom: 24px;
+}
+
+/* Metric card style */
+.metric-card {
+  background: var(--card-bg-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  padding: 16px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-hover-shadow);
+}
+
+/* Dialog style */
+.details-dialog {
+  background: var(--card-bg-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.details-dialog.open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-in animation for dialogs */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.details-dialog.open {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+button:hover {
+  background: var(--primary-color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.5);
+}
+
+@media (max-width: 768px) {
+  .root {
+    padding: 16px;
+  }
+  .metric-card {
+    margin: 0 auto;
+    width: 100%;
+  }
+}
