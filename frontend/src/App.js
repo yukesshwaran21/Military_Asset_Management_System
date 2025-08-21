@@ -8,7 +8,9 @@ import Purchases from './pages/Purchases';
 import Transfers from './pages/Transfers';
 import Assignments from './pages/Assignments';
 import { Container } from '@mui/material';
+import { initMilitaryUI } from './utils/military-ui';
 
+initMilitaryUI();
 export default function App() {
   return (
     <BrowserRouter>

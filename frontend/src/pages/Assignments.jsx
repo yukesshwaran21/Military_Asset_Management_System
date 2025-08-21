@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './Assignments.css';
-import { Paper, Stack, TextField, MenuItem, Button, Typography, Divider } from '@mui/material';
 import { apiGet, apiPost } from '../api';
 
 export default function Assignments() {
@@ -34,45 +32,81 @@ export default function Assignments() {
   };
 
   return (
-    <Stack spacing={4}>
-      <Paper sx={{ p:3, maxWidth: 720 }}>
-        <Typography variant="h6" gutterBottom>Assign Assets</Typography>
+    <main>
+      <section>
+        <h2>Assign Assets</h2>
         <form onSubmit={submitA}>
-          <Stack spacing={2}>
-            <TextField label="Personnel Name" name="personnelName" value={assignForm.personnelName} onChange={changeA} required />
-            <TextField select label="Base" name="base" value={assignForm.base} onChange={changeA} required>
-              {bases.map(b=><MenuItem key={b._id} value={b._id}>{b.name}</MenuItem>)}
-            </TextField>
-            <TextField select label="Asset" name="asset" value={assignForm.asset} onChange={changeA} required>
-              {assets.map(a=><MenuItem key={a._id} value={a._id}>{a.name}</MenuItem>)}
-            </TextField>
-            <TextField type="number" label="Quantity" name="quantity" value={assignForm.quantity} onChange={changeA} inputProps={{ min:1 }} required />
-            <TextField type="date" label="Date" name="date" value={assignForm.date} onChange={changeA} InputLabelProps={{ shrink:true }} />
-            <Button variant="contained" type="submit">Save Assignment</Button>
-            {msgA && <Typography>{msgA}</Typography>}
-          </Stack>
+          <div>
+            <label>Personnel Name
+              <input name="personnelName" value={assignForm.personnelName} onChange={changeA} required />
+            </label>
+          </div>
+          <div>
+            <label>Base
+              <select name="base" value={assignForm.base} onChange={changeA} required>
+                <option value="">Select Base</option>
+                {bases.map(b => <option key={b._id} value={b._id}>{b.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Asset
+              <select name="asset" value={assignForm.asset} onChange={changeA} required>
+                <option value="">Select Asset</option>
+                {assets.map(a => <option key={a._id} value={a._id}>{a.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Quantity
+              <input type="number" name="quantity" value={assignForm.quantity} onChange={changeA} min={1} required />
+            </label>
+          </div>
+          <div>
+            <label>Date
+              <input type="date" name="date" value={assignForm.date} onChange={changeA} />
+            </label>
+          </div>
+          <button type="submit">Save Assignment</button>
+          {msgA && <div>{msgA}</div>}
         </form>
-      </Paper>
+      </section>
 
-      <Divider />
+      <hr />
 
-      <Paper sx={{ p:3, maxWidth: 720 }}>
-        <Typography variant="h6" gutterBottom>Record Expenditure</Typography>
+      <section>
+        <h2>Record Expenditure</h2>
         <form onSubmit={submitE}>
-          <Stack spacing={2}>
-            <TextField select label="Base" name="base" value={expForm.base} onChange={changeE} required>
-              {bases.map(b=><MenuItem key={b._id} value={b._id}>{b.name}</MenuItem>)}
-            </TextField>
-            <TextField select label="Asset" name="asset" value={expForm.asset} onChange={changeE} required>
-              {assets.map(a=><MenuItem key={a._id} value={a._id}>{a.name}</MenuItem>)}
-            </TextField>
-            <TextField type="number" label="Quantity" name="quantity" value={expForm.quantity} onChange={changeE} inputProps={{ min:1 }} required />
-            <TextField type="date" label="Date" name="date" value={expForm.date} onChange={changeE} InputLabelProps={{ shrink:true }} />
-            <Button variant="contained" type="submit">Record</Button>
-            {msgE && <Typography>{msgE}</Typography>}
-          </Stack>
+          <div>
+            <label>Base
+              <select name="base" value={expForm.base} onChange={changeE} required>
+                <option value="">Select Base</option>
+                {bases.map(b => <option key={b._id} value={b._id}>{b.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Asset
+              <select name="asset" value={expForm.asset} onChange={changeE} required>
+                <option value="">Select Asset</option>
+                {assets.map(a => <option key={a._id} value={a._id}>{a.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Quantity
+              <input type="number" name="quantity" value={expForm.quantity} onChange={changeE} min={1} required />
+            </label>
+          </div>
+          <div>
+            <label>Date
+              <input type="date" name="date" value={expForm.date} onChange={changeE} />
+            </label>
+          </div>
+          <button type="submit">Record</button>
+          {msgE && <div>{msgE}</div>}
         </form>
-      </Paper>
-    </Stack>
+      </section>
+    </main>
   );
 }

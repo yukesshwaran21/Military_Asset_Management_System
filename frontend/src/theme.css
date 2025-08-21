@@ -1,46 +1,203 @@
-/* 
-:root {
-
-  --color-primary: #4a90e2;
-  --color-secondary: #ff7f50;
-  --color-accent: #00c897;
-  --color-bg: #f9f9f9;
-  --color-bg-dark: #1a1a1a;
-  --color-text: #333;
-  --color-text-light: #fff;
-
-  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
-
-  --transition-fast: 0.2s ease-in-out;
-  --transition-normal: 0.4s ease-in-out;
-
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "Inter", sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.6;
-  transition: background var(--transition-normal), color var(--transition-normal);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-}
-
-/* Dark mode *
-body.dark {
-  background: var(--color-bg-dark);
-  color: var(--color-text-light);
-}
+/* military-theme.css
+   Professional "elite" look for Military Asset Management System
+   - Dark, authoritative palette
+   - Subtle metallic accents and restrained animations
+   - Use classes prefixed with .mil- to avoid conflicts
 */
+
+/* ===================== VARIABLES ===================== */
+:root{
+  --mil-bg: #07090b;            /* deep charcoal */
+  --mil-surface: #0f1619;       /* panel background */
+  --mil-elev: #11161a;          /* elevated surface */
+  --mil-muted: #9aa3a8;         /* secondary text */
+  --mil-text: #e6eef1;          /* primary text */
+  --mil-accent: #b8913a;        /* brass/elite accent */
+  --mil-accent-2: #355b83;      /* steel blue accent */
+  --mil-olive: #486032;         /* military green (status) */
+  --mil-success: #3aa776;       /* success */
+  --mil-warning: #f2b705;       /* warning */
+  --mil-danger: #d6454a;        /* critical */
+  --mil-glass: rgba(255,255,255,0.03);
+
+  --space-1: 6px;
+  --space-2: 12px;
+  --space-3: 18px;
+  --space-4: 24px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --base-font-size: 15px;
+  --fast: 140ms;
+  --med: 260ms;
+  --slow: 420ms;
+  --shadow-sm: 0 6px 18px rgba(2,6,10,0.6);
+}
+
+/* Optional light-mode override (use data-theme="light" on <html>) */
+html[data-theme="light"]{
+  --mil-bg: #f4f6f7;
+  --mil-surface: #ffffff;
+  --mil-elev: #f7f9fa;
+  --mil-text: #0b1014;
+  --mil-muted: #55606a;
+  --mil-glass: rgba(0,0,0,0.04);
+}
+
+/* ===================== BASE RESET ===================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html,body { height:100%; margin:0; background:var(--mil-bg); color:var(--mil-text); font-family:var(--font-sans); font-size:var(--base-font-size); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+img,svg,video { max-width:100%; display:block; }
+
+/* ===================== LAYOUT ===================== */
+.mil-root {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-4);
+  padding: calc(var(--space-4) + 8px);
+  transition: background var(--med);
+}
+
+/* responsive stack */
+@media (max-width: 900px){
+  .mil-root { grid-template-columns: 1fr; padding: var(--space-3); }
+}
+
+/* sidebar */
+.mil-sidebar {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mil-surface) 94%, black 6%), var(--mil-elev));
+  border-radius: var(--r-lg);
+  padding: var(--space-3);
+  min-height: calc(100vh - 48px);
+  position: sticky; top: 20px;
+  box-shadow: var(--shadow-sm);
+  transform: translateZ(0);
+  overflow: auto;
+  transition: transform var(--med), opacity var(--med);
+}
+.mil-sidebar .brand {
+  display:flex; align-items:center; gap:12px; padding-bottom: var(--space-2);
+}
+.mil-logo {
+  width:44px; height:44px; background:linear-gradient(135deg,var(--mil-accent), var(--mil-accent-2)); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--mil-bg);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+/* nav item */
+.mil-nav { margin-top:6px; display:flex; flex-direction:column; gap:6px; }
+.mil-nav-item{
+  display:flex; gap:12px; align-items:center; padding:10px; border-radius:10px;
+  color:var(--mil-muted); cursor:pointer; transition: background var(--fast), transform var(--fast), color var(--fast);
+}
+.mil-nav-item:hover { background: rgba(255,255,255,0.02); color:var(--mil-text); transform: translateY(-3px); }
+.mil-nav-item.active { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:var(--mil-text); }
+
+/* content area */
+.mil-main {
+  display:flex; flex-direction:column; gap: var(--space-4);
+}
+
+/* header */
+.mil-header { display:flex; align-items:center; justify-content:space-between; gap:var(--space-3); }
+.mil-title { font-size:1.25rem; font-weight:700; letter-spacing:0.2px; }
+.mil-sub { color:var(--mil-muted); font-size:0.95rem; }
+
+/* ===================== CARDS & PANELS ===================== */
+.mil-card {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--mil-surface) 96%, rgba(255,255,255,0.01)), var(--mil-elev));
+  border-radius: var(--r-md);
+  padding: var(--space-3);
+  box-shadow: 0 8px 28px rgba(2,6,10,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: transform var(--med), box-shadow var(--med);
+}
+.mil-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(2,6,10,0.65); }
+
+/* small header inside card */
+.mil-card .card-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom: var(--space-2); }
+.mil-card .card-title { font-weight:600; color:var(--mil-text); }
+.mil-card .card-sub { color:var(--mil-muted); font-size:0.9rem; }
+
+/* ===================== TABLES ===================== */
+.mil-table { width:100%; border-collapse:collapse; background:transparent; }
+.mil-table th, .mil-table td { text-align:left; padding:12px 10px; border-bottom: 1px dashed rgba(255,255,255,0.03); color:var(--mil-muted); }
+.mil-table th { color:var(--mil-text); font-weight:600; font-size:.95rem; }
+
+/* status badges */
+.mil-badge {
+  display:inline-block; padding:6px 10px; border-radius:999px; font-size:0.82rem; font-weight:600;
+  background: rgba(255,255,255,0.02); color:var(--mil-text);
+}
+.mil-badge.operational { background: linear-gradient(90deg, color-mix(in srgb, var(--mil-olive) 80%, transparent), rgba(255,255,255,0.02)); color:var(--mil-bg); }
+.mil-badge.maintenance { background: linear-gradient(90deg,var(--mil-warning), color-mix(in srgb, var(--mil-warning) 60%, transparent)); color: #1a1200; }
+.mil-badge.offline { background: linear-gradient(90deg, var(--mil-danger), color-mix(in srgb, var(--mil-danger) 60%, transparent)); color:#fff; }
+
+/* ===================== FORMS & CONTROLS ===================== */
+.mil-input, .mil-textarea {
+  width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.01));
+  color:var(--mil-text); outline:none; transition: box-shadow var(--fast), border-color var(--fast), transform var(--fast);
+}
+.mil-input:focus, .mil-textarea:focus { box-shadow: 0 12px 40px color-mix(in srgb, var(--mil-accent) 12%, transparent); border-color: color-mix(in srgb, var(--mil-accent) 36%, transparent); transform: translateY(-2px); }
+
+/* buttons */
+.mil-btn {
+  display:inline-flex; gap:10px; align-items:center; justify-content:center;
+  padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-weight:600;
+  background: linear-gradient(90deg, var(--mil-accent), var(--mil-accent-2));
+  color: var(--mil-bg); box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  transition: transform var(--fast), box-shadow var(--fast), opacity var(--fast);
+  position:relative; overflow:hidden;
+}
+.mil-btn:active { transform: translateY(1px); }
+.mil-btn.secondary {
+  background: transparent; color:var(--mil-text); border:1px solid rgba(255,255,255,0.06); box-shadow:none;
+}
+.mil-btn.ghost { background: transparent; color:var(--mil-text); border: none; }
+
+/* subtle button ripple using pseudo-element (click handled by adding .rippling class via JS) */
+.mil-btn::after {
+  content:""; position:absolute; left:50%; top:50%; width:10px; height:10px; background:rgba(255,255,255,0.06);
+  border-radius:50%; transform: translate(-50%,-50%) scale(0); opacity:0; transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 420ms;
+}
+.mil-btn.rippling::after { transform: translate(-50%,-50%) scale(30); opacity:1; transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 420ms; }
+
+/* ===================== TOAST / NOTIFICATIONS ===================== */
+.mil-toast { position:fixed; right:20px; bottom:20px; background:var(--mil-elev); padding:12px 16px; border-radius:10px; box-shadow:var(--shadow-sm); color:var(--mil-text); }
+
+/* ===================== MODAL ===================== */
+.mil-modal-backdrop { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(2,6,10,0.6); z-index:1000; opacity:0; pointer-events:none; transition: opacity var(--fast); }
+.mil-modal-backdrop.show { opacity:1; pointer-events:auto; }
+.mil-modal { width:min(760px,96%); background:var(--mil-surface); padding:var(--space-3); border-radius:14px; transform: translateY(18px) scale(.98); transition: transform var(--med), opacity var(--med); box-shadow: 0 26px 80px rgba(2,6,10,0.8); }
+.mil-modal-backdrop.show .mil-modal { transform: translateY(0) scale(1); }
+
+/* ===================== SKELETON LOADER ===================== */
+.mil-skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.015) 50%, rgba(255,255,255,0.03) 75%, rgba(255,255,255,0.02) 100%); background-size: 200% 100%; animation: mil-shimmer 1.6s linear infinite; border-radius:8px; }
+@keyframes mil-shimmer { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
+
+/* ===================== MICRO-ANIMATIONS ===================== */
+@keyframes mil-pulse {
+  0% { transform: scale(1); opacity:1; }
+  70%{ transform: scale(1.06); opacity:.85; }
+  100%{ transform: scale(1); opacity:1; }
+}
+.mil-spotlight { animation: mil-pulse 3.6s ease-in-out infinite; }
+
+/* ===================== ACCESSIBILITY HELPERS ===================== */
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+/* ===================== QUICK MIGRATION MAP ===================== */
+/* If you previously used .root and .form-card, you can map them:
+   .root -> .mil-root
+   .form-card -> .mil-card
+*/
+.root { /* fallback mapping (optional) */ }
+.form-card { /* fallback mapping (optional) */ }
+
+/* End of military-theme.css */
